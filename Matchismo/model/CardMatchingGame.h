@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "Deck.h"
+#import "LastMove.h"
 
 @interface CardMatchingGame : NSObject
 
 @property (nonatomic)int numberOfCardsToMatch;
 @property (nonatomic, readonly)int score;
-@property (strong, nonatomic) NSString *lastMove;
+@property (strong, nonatomic, readonly) LastMove *lastMove;
 
 - (id)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck matchingNumberOfCard:(NSUInteger)cardsToMatch;
 - (void)flipCardAtIndex:(NSUInteger)index;

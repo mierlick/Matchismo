@@ -11,6 +11,7 @@
 #import "CardMatchingGame.h"
 
 @interface MatchismoViewController ()
+		
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
 @property (nonatomic) int flipCount;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
@@ -70,7 +71,7 @@
         
     }
     self.scoreLabel.text =[NSString stringWithFormat:@"Score: %d", self.game.score];
-    self.lastMoveLabel.text = self.game.lastMove;
+    [self setLastMoveLabelFromLastMove:self.game.lastMove];
 }
 
 - (CardMatchingGame *)game
@@ -93,6 +94,23 @@
 - (IBAction)gameChanger:(UISegmentedControl *)sender
 {
     self.game.numberOfCardsToMatch = sender.selectedSegmentIndex + 2;
+}
+
+- (void)setLastMoveLabelFromLastMove:(LastMove *)lastMove
+{
+    if (!lastMove.lastMove) {
+        self.lastMoveLabel.text = nil;
+    } else if (lastMove.cards.count == 1) {
+        Card *card = [lastMove.cards lastObject];
+        self.lastMoveLabel.text = [[NSString alloc] initWithFormat:@"%@ %@", lastMove.lastMove, card.contents];
+    } else {
+        NSString *lastMoveString = [NSString stringWithFormat:@"%@", lastMove.lastMove];
+        for (Card * otherCard in lastMove.cards) {
+            lastMoveString = [NSString stringWithFormat:@"%@ %@", lastMoveString, otherCard.contents];
+        }
+        lastMoveString = [NSString stringWithFormat:@"%@ for %d points", lastMoveString, lastMove.points];
+        self.lastMoveLabel.text = lastMoveString;
+    }
 }
 
 @end

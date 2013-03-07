@@ -52,29 +52,23 @@
     //Match Suit
     for (PlayingCard *otherCard in otherCards) {
         if (![otherCard.suit isEqualToString:self.suit]) {
+            score = 0;
             break;
         }
         score = 1 * otherCards.count;
     }
     
     //Match Rank
-    for (PlayingCard *otherCard in otherCards) {
-        if (otherCard.rank != self.rank) {
-            break;
+    if (!score) {
+        for (PlayingCard *otherCard in otherCards) {
+            if (otherCard.rank != self.rank) {
+                score = 0;
+                break;
+            }
+            score = 4 * otherCards.count;
         }
-        score = 4 * otherCards.count;
     }
     
-//    if (otherCards.count == 1) {
-//        PlayingCard *otherCard = [otherCards lastObject];
-//        if ([otherCard.suit isEqualToString:self.suit]) {
-//            score = 1;
-//        } else if (otherCard.rank == self.rank) {
-//            score = 4;
-//        }
-//    } else if (otherCards.count == 2) {
-//        
-//    }
     
     return score;
 }
