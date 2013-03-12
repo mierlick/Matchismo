@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MatchViewController.h"
 
-@interface SetViewController : UIViewController
+@interface SetViewController : MatchViewController
 
 @end

@@ -8,42 +8,17 @@
 
 #import "SetViewController.h"
 #import "SetCardDeck.h"
-#import "CardMatchingGame.h"
 #import "SetCard.h"
 
 @interface SetViewController ()
-
-@property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
-@property (nonatomic) int flipCount;
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (strong, nonatomic) CardMatchingGame *game;
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *lastMoveLabel;
 
 @end
 
 @implementation SetViewController
 
+@synthesize game = _game;
+
 #define THREE_CARD_GAME 3
-
-- (IBAction)flipCard:(UIButton *)sender
-{
-    [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];
-    self.flipCount++;
-    [self updateUI];
-}
-
-- (void)setFlipCount:(int)flipCount
-{
-    _flipCount = flipCount;
-    self.flipsLabel.text = [NSString stringWithFormat:@"Flips: %d", self.flipCount];
-}
-
-- (void)setCardButtons:(NSArray *)cardButtons
-{
-    _cardButtons = cardButtons;
-    [self updateUI];
-}
 
 - (void)updateUI
 {
@@ -79,47 +54,6 @@
     [self setLastMoveLabelFromLastMove:self.game.lastMove];
 }
 
-- (CardMatchingGame *)game
-{
-    if (!_game) {
-        _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[SetCardDeck alloc]init] matchingNumberOfCard:THREE_CARD_GAME matchBonus:4 mismatchPenalty:2];
-    }
-    
-    return _game;
-}
-
-- (IBAction)newGame:(id)sender
-{
-    self.game = nil;
-    self.flipCount = 0;
-    [self updateUI];
-}
-
-
-- (UIColor *) getUIColor:(NSString *)color
-{
-    if ([color isEqualToString:@"red"]) {
-        return [UIColor redColor];
-    } else if ([color isEqualToString:@"blue"]) {
-        return [UIColor blueColor];
-    } else if ([color isEqualToString:@"green"]) {
-        return [UIColor greenColor];
-    }
-    
-    return [UIColor whiteColor];
-}
-
-- (CGFloat)getAlpha:(NSString *)shade
-{
-    if ([shade isEqualToString:@"striped"]) {
-        return 0.3;
-    } else if ([shade isEqualToString:@"open"]) {
-        return 0.0;
-    }
-    
-    return 1.0;
-}
-
 - (void)setLastMoveLabelFromLastMove:(LastMove *)lastMove
 {
     if (!lastMove.lastMove) {
@@ -151,12 +85,46 @@
     }
 }
 
+- (CardMatchingGame *)game
+{
+    if (!_game) {
+        _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[SetCardDeck alloc]init] matchingNumberOfCard:THREE_CARD_GAME matchBonus:4 mismatchPenalty:2];
+    }
+    
+    return _game;
+}
+
 - (NSDictionary *)getDictionaryStyleForLastMove:(CGFloat)alpha withColor:(UIColor *)color
 {
    return @{NSFontAttributeName : [UIFont systemFontOfSize:18],
             NSForegroundColorAttributeName : [color colorWithAlphaComponent:alpha],
             NSStrokeWidthAttributeName :  @-3,
             NSStrokeColorAttributeName : color};
+}
+
+
+- (UIColor *) getUIColor:(NSString *)color
+{
+    if ([color isEqualToString:@"red"]) {
+        return [UIColor redColor];
+    } else if ([color isEqualToString:@"blue"]) {
+        return [UIColor blueColor];
+    } else if ([color isEqualToString:@"green"]) {
+        return [UIColor greenColor];
+    }
+    
+    return [UIColor whiteColor];
+}
+
+- (CGFloat)getAlpha:(NSString *)shade
+{
+    if ([shade isEqualToString:@"striped"]) {
+        return 0.3;
+    } else if ([shade isEqualToString:@"open"]) {
+        return 0.0;
+    }
+    
+    return 1.0;
 }
 
 @end

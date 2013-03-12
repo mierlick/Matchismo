@@ -11,6 +11,7 @@
 		4B512C4716E3A4DE00EA2B63 /* phoenix-mobile.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B512C4616E3A4DE00EA2B63 /* phoenix-mobile.png */; };
 		4B512C4B16E5109600EA2B63 /* cards_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B512C4A16E5109600EA2B63 /* cards_57.png */; };
 		4B512C4D16E5109A00EA2B63 /* card_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B512C4C16E5109A00EA2B63 /* card_114.png */; };
+		4B641A5E16EF4B6C003A6CF8 /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B641A5D16EF4B6C003A6CF8 /* MatchViewController.m */; };
 		4BA7977E16E0DF110027625F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BA7977D16E0DF110027625F /* UIKit.framework */; };
 		4BA7978016E0DF110027625F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BA7977F16E0DF110027625F /* Foundation.framework */; };
 		4BA7978216E0DF110027625F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BA7978116E0DF110027625F /* CoreGraphics.framework */; };
@@ -38,6 +39,8 @@
 		4B512C4616E3A4DE00EA2B63 /* phoenix-mobile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phoenix-mobile.png"; sourceTree = "<group>"; };
 		4B512C4A16E5109600EA2B63 /* cards_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cards_57.png; path = ../cards_57.png; sourceTree = "<group>"; };
 		4B512C4C16E5109A00EA2B63 /* card_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = card_114.png; path = ../card_114.png; sourceTree = "<group>"; };
+		4B641A5C16EF4B6C003A6CF8 /* MatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewController.h; sourceTree = "<group>"; };
+		4B641A5D16EF4B6C003A6CF8 /* MatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchViewController.m; sourceTree = "<group>"; };
 		4BA7977A16E0DF110027625F /* Matchismo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matchismo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BA7977D16E0DF110027625F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4BA7977F16E0DF110027625F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -119,6 +122,8 @@
 				4B0A576416E7FB30003F476D /* LastMove.h */,
 				4B0A576516E7FB30003F476D /* LastMove.m */,
 				4BA7979516E0DF110027625F /* MainStoryboard.storyboard */,
+				4B641A5C16EF4B6C003A6CF8 /* MatchViewController.h */,
+				4B641A5D16EF4B6C003A6CF8 /* MatchViewController.m */,
 				4BA7979816E0DF110027625F /* MatchismoViewController.h */,
 				4BA7979916E0DF110027625F /* MatchismoViewController.m */,
 				4BA7978416E0DF110027625F /* Supporting Files */,
@@ -251,6 +256,7 @@
 				4BBADEF316E6179C0039012B /* SetCard.m in Sources */,
 				4BBADEF616E618490039012B /* SetCardDeck.m in Sources */,
 				4B0A576616E7FB30003F476D /* LastMove.m in Sources */,
+				4B641A5E16EF4B6C003A6CF8 /* MatchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

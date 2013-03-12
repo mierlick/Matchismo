@@ -8,42 +8,18 @@
 
 #import "MatchismoViewController.h"
 #import "PlayingCardDeck.h"
-#import "CardMatchingGame.h"
 
 @interface MatchismoViewController ()
-		
-@property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
-@property (nonatomic) int flipCount;
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (strong, nonatomic) CardMatchingGame *game;
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *lastMoveLabel;
+
 @property (weak, nonatomic) IBOutlet UISegmentedControl *matchControl;
 
 @end
 
 @implementation MatchismoViewController
 
+@synthesize game = _game;
+
 #define TWO_CARD_GAME 2
-
-- (IBAction)flipCard:(UIButton *)sender
-{
-    [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];
-    self.flipCount++;
-    [self updateUI];
-}
-
-- (void)setFlipCount:(int)flipCount
-{
-    _flipCount = flipCount;
-    self.flipsLabel.text = [NSString stringWithFormat:@"Flips: %d", self.flipCount];
-}
-
-- (void)setCardButtons:(NSArray *)cardButtons
-{
-    _cardButtons = cardButtons;
-    [self updateUI];
-}
 
 - (void)updateUI
 {
@@ -74,28 +50,6 @@
     [self setLastMoveLabelFromLastMove:self.game.lastMove];
 }
 
-- (CardMatchingGame *)game
-{
-    if (!_game) {
-        _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[PlayingCardDeck alloc]init] matchingNumberOfCard:TWO_CARD_GAME matchBonus:4 mismatchPenalty:2];
-    }
-    
-    return _game;
-}
-
-- (IBAction)newGame:(id)sender
-{
-    self.game = nil;
-    self.flipCount = 0;
-    self.matchControl.selectedSegmentIndex = 0;
-    [self updateUI];
-}
-
-- (IBAction)gameChanger:(UISegmentedControl *)sender
-{
-    self.game.numberOfCardsToMatch = sender.selectedSegmentIndex + 2;
-}
-
 - (void)setLastMoveLabelFromLastMove:(LastMove *)lastMove
 {
     if (!lastMove.lastMove) {
@@ -112,5 +66,29 @@
         self.lastMoveLabel.text = lastMoveString;
     }
 }
+
+- (CardMatchingGame *)game
+{
+    if (!_game) {
+        _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[PlayingCardDeck alloc]init] matchingNumberOfCard:TWO_CARD_GAME matchBonus:4 mismatchPenalty:2];
+    }
+    
+    return _game;
+}
+
+
+
+- (IBAction)newGame:(id)sender
+{
+    [super newGame:sender];
+    self.matchControl.selectedSegmentIndex = 0;
+}
+
+- (IBAction)gameChanger:(UISegmentedControl *)sender
+{
+    self.game.numberOfCardsToMatch = sender.selectedSegmentIndex + 2;
+}
+
+
 
 @end
