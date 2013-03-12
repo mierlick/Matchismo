@@ -51,48 +51,34 @@
 - (int)match:(NSArray *)otherCards
 {
     int score = 0;
+    int numberOfCardsInSet = otherCards.count+1;
     
-    //Match Rank
+    NSMutableSet *rankSet = [[NSMutableSet alloc] init];
+    NSMutableSet *colorSet = [[NSMutableSet alloc] init];
+    NSMutableSet *shapeSet = [[NSMutableSet alloc] init];
+    NSMutableSet *shadeSet = [[NSMutableSet alloc] init];
+    
+    [rankSet addObject:[[NSNumber alloc] initWithInt:self.rank]];
+    [colorSet addObject:self.color];
+    [shapeSet addObject:self.shape];
+    [shadeSet addObject:self.shade];
+    
     for (SetCard *otherCard in otherCards) {
-        if (otherCard.rank != self.rank) {
-            score = 0;
-            break;
-        }
+        [rankSet addObject:[[NSNumber alloc] initWithInt:otherCard.rank]];
+        [colorSet addObject:otherCard.color];
+        [shapeSet addObject:otherCard.shape];
+        [shadeSet addObject:otherCard.shade];
+    }
+    
+    if (rankSet.count == numberOfCardsInSet
+        || colorSet.count == numberOfCardsInSet
+        || shapeSet.count == numberOfCardsInSet
+        || shadeSet.count == numberOfCardsInSet
+        || rankSet.count == 1
+        || colorSet.count == 1
+        || shapeSet.count == 1
+        || shadeSet.count == 1) {
         score = 1 * otherCards.count;
-    }
-    
-    //Match Shade
-    if (!score) {
-        for (SetCard *otherCard in otherCards) {
-            if ([otherCard.shade isEqualToString:self.shade]) {
-                score = 0;
-                break;
-            }
-            score = 2 * otherCards.count;
-        }
-    }
-    
-    //Match Shape
-    if (!score) {
-        for (SetCard *otherCard in otherCards) {
-            if ([otherCard.shape isEqualToString:self.shape]) {
-                score = 0;
-                break;
-            }
-            score = 3 * otherCards.count;
-        }
-    }
-    
-
-    //Match Color
-    if (!score) {
-        for (SetCard *otherCard in otherCards) {
-            if (![otherCard.color isEqualToString:self.color]) {
-                score = 0;
-                break;
-            }
-            score = 4 * otherCards.count;
-        }
     }
     
     return score;

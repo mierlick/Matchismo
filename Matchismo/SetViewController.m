@@ -82,7 +82,7 @@
 - (CardMatchingGame *)game
 {
     if (!_game) {
-        _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[SetCardDeck alloc]init] matchingNumberOfCard:THREE_CARD_GAME];
+        _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[SetCardDeck alloc]init] matchingNumberOfCard:THREE_CARD_GAME matchBonus:4 mismatchPenalty:2];
     }
     
     return _game;

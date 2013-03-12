@@ -49,6 +49,18 @@
 {
     int score = 0;
     
+    NSMutableSet *rankSet = [[NSMutableSet alloc] init];
+    NSMutableSet *suitSet = [[NSMutableSet alloc] init];
+    
+    [rankSet addObject:[[NSNumber alloc] initWithInt:self.rank]];
+    [suitSet addObject:self.suit];
+    
+    if (suitSet.count == 1) {
+        
+    } else if (rankSet.count == 1) {
+        
+    }
+    
     //Match Suit
     for (PlayingCard *otherCard in otherCards) {
         if (![otherCard.suit isEqualToString:self.suit]) {

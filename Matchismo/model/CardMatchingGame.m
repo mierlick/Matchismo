@@ -14,6 +14,8 @@
 @property (strong, nonatomic) NSMutableArray *cards;
 @property (nonatomic) int score;
 @property (strong, nonatomic) LastMove *lastMove;
+@property (nonatomic) int matchBonus;
+@property (nonatomic) int mismatchPenalty;
 
 @end
 
@@ -21,8 +23,6 @@
 
 @implementation CardMatchingGame
 
-#define MATCH_BONUS 4
-#define MISMATCH_PENALTY 2
 #define FLIP_COST 1
 
 - (NSMutableArray *)cards
@@ -32,12 +32,14 @@
     return _cards;	
 }
 
-- (id)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck matchingNumberOfCard:(NSUInteger)cardsToMatch
+- (id)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck matchingNumberOfCard:(NSUInteger)cardsToMatch matchBonus:(NSUInteger)bonus mismatchPenalty:(NSUInteger)penalty
 {
     self = [super init];
     
     if (self) {
         self.numberOfCardsToMatch = cardsToMatch;
+        self.matchBonus = bonus;
+        self.mismatchPenalty = penalty;
         for (int i = 0; i < count; i++) {
             Card *card = [deck drawRandomCard];
             if (!card) {
@@ -89,16 +91,16 @@
                         otherCard.unplayable = YES;
                     }
                     card.unplayable = YES;
-                    self.score += matchScore * MATCH_BONUS;
+                    self.score += matchScore * self.matchBonus;
                     lastMoveText = @"Matched";
-                    points = matchScore * MATCH_BONUS;
+                    points = matchScore * self.matchBonus;
                 } else {
                     for (Card *otherCard in otherCards) {
                         otherCard.faceUp = NO;
                     }
-                    self.score -= MISMATCH_PENALTY;
+                    self.score -= self.mismatchPenalty;
                     lastMoveText = @"Mismatch";
-                    points = -MISMATCH_PENALTY;
+                    points = -self.mismatchPenalty;
                 }
                 lastMoveCards = [cardsForLastMove copy];
             } else {

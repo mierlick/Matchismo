@@ -119,8 +119,6 @@
 				4B0A576416E7FB30003F476D /* LastMove.h */,
 				4B0A576516E7FB30003F476D /* LastMove.m */,
 				4BA7979516E0DF110027625F /* MainStoryboard.storyboard */,
-				4BF2B35516E1238A00DB3B45 /* CardMatchingGame.h */,
-				4BF2B35616E1238A00DB3B45 /* CardMatchingGame.m */,
 				4BA7979816E0DF110027625F /* MatchismoViewController.h */,
 				4BA7979916E0DF110027625F /* MatchismoViewController.m */,
 				4BA7978416E0DF110027625F /* Supporting Files */,
@@ -153,6 +151,8 @@
 		4BA797A516E0E04F0027625F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4BF2B35516E1238A00DB3B45 /* CardMatchingGame.h */,
+				4BF2B35616E1238A00DB3B45 /* CardMatchingGame.m */,
 				4BA797A216E0E0460027625F /* Card.h */,
 				4BA797A316E0E0460027625F /* Card.m */,
 				4BA797A616E0E0620027625F /* Deck.h */,

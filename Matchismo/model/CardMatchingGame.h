@@ -16,7 +16,7 @@
 @property (nonatomic, readonly)int score;
 @property (strong, nonatomic, readonly) LastMove *lastMove;
 
-- (id)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck matchingNumberOfCard:(NSUInteger)cardsToMatch;
+- (id)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck matchingNumberOfCard:(NSUInteger)cardsToMatch matchBonus:(NSUInteger)bonus mismatchPenalty:(NSUInteger)penalty;
 - (void)flipCardAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
 
