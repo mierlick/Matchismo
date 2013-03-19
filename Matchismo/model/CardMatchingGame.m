@@ -66,7 +66,7 @@
     self.lastMove = [[LastMove alloc] init];
     NSString *lastMoveText;
     NSArray *lastMoveCards;
-    NSUInteger points;
+    NSUInteger points = 0;
     
     if (!card.isUnplayable) {   
         if (!card.isFaceUp) {

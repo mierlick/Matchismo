@@ -39,7 +39,7 @@
         cardButton.alpha = card.isUnplayable ? 0.3 : 1.0;
         
         if (!card.isFaceUp) {
-            UIImage *cardBack = [UIImage imageNamed:@"phoenix-mobile.png"];
+            UIImage *cardBack = [UIImage imageNamed:@"phoenix-mobile"];
             [cardButton setImage:cardBack forState:UIControlStateNormal];
         } else {
             [cardButton setImage:nil forState:UIControlStateNormal];
