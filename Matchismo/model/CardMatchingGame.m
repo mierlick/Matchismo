@@ -104,7 +104,8 @@
                 }
                 lastMoveCards = [cardsForLastMove copy];
             } else {
-                lastMoveCards = @[card];
+                [otherCards addObject:card];
+                lastMoveCards = otherCards;
             }
         
             self.score -= FLIP_COST;

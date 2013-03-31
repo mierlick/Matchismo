@@ -8,6 +8,8 @@
 
 #import "MatchismoViewController.h"
 #import "PlayingCardDeck.h"
+#import "PlayingCard.h"
+#import "PlayingCardCollectionViewCell.h"
 
 @interface MatchismoViewController ()
 
@@ -17,71 +19,58 @@
 
 @implementation MatchismoViewController
 
-@synthesize game = _game;
+#define MISMATCH_PENALTY 2
+#define MATCH_BONUS 4
+#define STARTING_CARD_COUNT 24
+#define DEFAULT_NUMBER_OF_CARDS_TO_MATCH 2
 
-#define TWO_CARD_GAME 2
+- (Deck *)createDeck
+{
+    return [[PlayingCardDeck alloc] init];
+}
+
+- (NSUInteger)startingCardCount
+{
+    return STARTING_CARD_COUNT;
+}
+
+- (NSUInteger) numberOfCardsToMatch
+{
+    return DEFAULT_NUMBER_OF_CARDS_TO_MATCH + self.matchControl.selectedSegmentIndex;
+}
+
+- (NSUInteger) matchBonus
+{
+    return MATCH_BONUS;
+}
+
+- (NSUInteger) mismatchPenalty
+{
+    return MISMATCH_PENALTY;
+}
+
+- (void)updateCell:(UICollectionViewCell *)cell usingCard:(Card *)card
+{
+    if ([cell isKindOfClass:[PlayingCardCollectionViewCell class]]) {
+        PlayingCardView *playingCardView = ((PlayingCardCollectionViewCell *)cell).playingCardView;
+        if ([card isKindOfClass:[PlayingCard class]]) {
+            PlayingCard *playingCard = (PlayingCard *)card;
+            playingCardView.rank = playingCard.rank;
+            playingCardView.suit = playingCard.suit;
+            playingCardView.faceUp = playingCard.isFaceUp;
+            playingCardView.alpha = playingCard.isUnplayable ? 0.3 : 1.0;
+        }
+    }
+}
 
 - (void)updateUI
 {
+    [super updateUI];
     if (self.flipCount != 0) {
         self.matchControl.enabled = NO;
     } else {
         self.matchControl.enabled = YES;
     }
-    for (UIButton *cardButton in self.cardButtons) {
-        Card *card = [self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
-        
-        [cardButton setTitle:card.contents forState:UIControlStateSelected];
-        [cardButton setTitle:card.contents forState:UIControlStateSelected|UIControlStateDisabled];
-
-        cardButton.selected = card.isFaceUp;
-        cardButton.enabled = !card.isUnplayable;
-        cardButton.alpha = card.isUnplayable ? 0.3 : 1.0;
-        
-        if (!card.isFaceUp) {
-            UIImage *cardBack = [UIImage imageNamed:@"phoenix-mobile"];
-            [cardButton setImage:cardBack forState:UIControlStateNormal];
-        } else {
-            [cardButton setImage:nil forState:UIControlStateNormal];
-        }
-        
-    }
-    self.scoreLabel.text =[NSString stringWithFormat:@"Score: %d", self.game.score];
-    [self setLastMoveLabelFromLastMove:self.game.lastMove];
-}
-
-- (void)setLastMoveLabelFromLastMove:(LastMove *)lastMove
-{
-    if (!lastMove.lastMove) {
-        self.lastMoveLabel.text = nil;
-    } else if (lastMove.cards.count == 1) {
-        Card *card = [lastMove.cards lastObject];
-        self.lastMoveLabel.text = [[NSString alloc] initWithFormat:@"%@ %@", lastMove.lastMove, card.contents];
-    } else {
-        NSString *lastMoveString = [NSString stringWithFormat:@"%@", lastMove.lastMove];
-        for (Card * otherCard in lastMove.cards) {
-            lastMoveString = [NSString stringWithFormat:@"%@ %@", lastMoveString, otherCard.contents];
-        }
-        lastMoveString = [NSString stringWithFormat:@"%@ for %d points", lastMoveString, lastMove.points];
-        self.lastMoveLabel.text = lastMoveString;
-    }
-}
-
-- (CardMatchingGame *)game
-{
-    if (!_game) {
-        _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[PlayingCardDeck alloc]init] matchingNumberOfCard:TWO_CARD_GAME matchBonus:4 mismatchPenalty:2];
-    }
-    
-    return _game;
-}
-
-
-
-- (IBAction)newGame:(id)sender
-{
-    [super newGame:sender];
-    self.matchControl.selectedSegmentIndex = 0;
 }
 
 - (IBAction)gameChanger:(UISegmentedControl *)sender
@@ -89,6 +78,17 @@
     self.game.numberOfCardsToMatch = sender.selectedSegmentIndex + 2;
 }
 
-
+- (UIView*) createCardViewUsingCard:(Card*) card
+{
+    PlayingCardView *playingCardView;
+    if([card isKindOfClass:[PlayingCard class]]){
+        PlayingCard *playingCard = (PlayingCard*)card;
+        playingCardView = [[PlayingCardView alloc]init];
+        playingCardView.suit = playingCard.suit;
+        playingCardView.rank = playingCard.rank;
+        playingCardView.faceUp = YES;
+    }
+    return playingCardView;
+}
 
 @end

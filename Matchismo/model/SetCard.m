@@ -86,12 +86,12 @@
 
 + (NSArray *)validColors
 {
-    return @[@"red",@"blue",@"green"];
+    return @[@"red",@"purple",@"green"];
 }
 
 + (NSArray *)validShapes
 {
-    return @[@"▲",@"●",@"■"];
+    return @[@"diamond",@"oval",@"squiggle"];
 }
 
 + (NSArray *)validShades

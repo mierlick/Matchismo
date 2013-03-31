@@ -9,89 +9,127 @@
 #import "SetViewController.h"
 #import "SetCardDeck.h"
 #import "SetCard.h"
+#import "SetCardCollectionViewCell.h"
 
 @interface SetViewController ()
+
+@property (weak, nonatomic) IBOutlet UIButton *drawCardsButton;
+@property (strong, nonatomic) SetCardDeck *deck;
 
 @end
 
 @implementation SetViewController
 
-@synthesize game = _game;
-
 #define THREE_CARD_GAME 3
+#define MISMATCH_PENALTY 2
+#define MATCH_BONUS 4
+#define STARTING_CARD_COUNT 12
+#define NUMBER_OF_CARDS_TO_MATCH 3
 
-- (void)updateUI
+- (SetCardDeck *)deck
 {
-    for (UIButton *cardButton in self.cardButtons) {
-        SetCard *card = (SetCard *)[self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
-        
-        UIColor *color =  [self getUIColor:card.color];
-        CGFloat alpha = [self getAlpha:card.shade];
-        
-        NSDictionary *style = @{NSFontAttributeName : [UIFont systemFontOfSize:18],
-                                NSForegroundColorAttributeName : [color colorWithAlphaComponent:alpha],
-                                NSStrokeWidthAttributeName :  @-3,
-                                NSStrokeColorAttributeName : color};
-        
-        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:card.contents attributes:style];
-        
-        [cardButton setAttributedTitle:attributedString forState:UIControlStateNormal];
-        
-        
-        
-        cardButton.selected = card.isFaceUp;
-        cardButton.enabled = !card.isUnplayable;
-        cardButton.alpha = card.isUnplayable ? 0.3 : 1.0;
-        
-        if (!card.isFaceUp) {
-            [cardButton setBackgroundColor:[UIColor whiteColor]];
-        } else {
-            [cardButton setBackgroundColor:[UIColor lightGrayColor]];
-        }
-        
+    if (!_deck) {
+       _deck = [[SetCardDeck alloc] init];
     }
-    self.scoreLabel.text =[NSString stringWithFormat:@"Score: %d", self.game.score];
-    [self setLastMoveLabelFromLastMove:self.game.lastMove];
+    return _deck;
 }
 
-- (void)setLastMoveLabelFromLastMove:(LastMove *)lastMove
+- (Deck *)createDeck
 {
-    if (!lastMove.lastMove) {
-        self.lastMoveLabel.text = nil;
-    } else if (lastMove.cards.count == 1) {
-        SetCard *card = [lastMove.cards lastObject];
-        UIColor *color =  [self getUIColor:card.color];
-        CGFloat alpha = [self getAlpha:card.shade];
-        
-        NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:lastMove.lastMove];
-        NSAttributedString *attributedCardString = [[NSAttributedString alloc] initWithString:card.contents attributes:[self getDictionaryStyleForLastMove:alpha withColor:color]];
-        [mutableAttributedString insertAttributedString:attributedCardString atIndex:[mutableAttributedString length]];
-        
-        self.lastMoveLabel.attributedText = [mutableAttributedString copy];
-    } else if (lastMove.cards.count > 1) {
-        NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:lastMove.lastMove];
+    return self.deck;
+}
 
-        for (SetCard * setCard in lastMove.cards) {
-            UIColor *color =  [self getUIColor:setCard.color];
-            CGFloat alpha = [self getAlpha:setCard.shade];
-  
-            NSString *contents = [[NSString alloc] initWithFormat:@" %@", setCard.contents];
-            NSAttributedString *attributedCardString = [[NSAttributedString alloc] initWithString:contents attributes:[self getDictionaryStyleForLastMove:alpha withColor:color]];
-            [mutableAttributedString insertAttributedString:attributedCardString atIndex:[mutableAttributedString length]];
+- (NSUInteger)startingCardCount
+{
+    return STARTING_CARD_COUNT;
+}
+
+- (NSUInteger) numberOfCardsToMatch
+{
+    return NUMBER_OF_CARDS_TO_MATCH;
+}
+
+- (NSUInteger) matchBonus
+{
+    return MATCH_BONUS;
+}
+
+- (NSUInteger) mismatchPenalty
+{
+    return MISMATCH_PENALTY;
+}
+
+- (void)updateCell:(UICollectionViewCell *)cell usingCard:(Card *)card
+{
+    if ([cell isKindOfClass:[SetCardCollectionViewCell class]]) {
+        SetCardView *setCardView = ((SetCardCollectionViewCell *)cell).setCardView;
+        if ([card isKindOfClass:[SetCard class]]) {
+            SetCard *setCard = (SetCard *)card;
+            setCardView.rank = setCard.rank;
+            setCardView.shape = setCard.shape;
+            setCardView.shade = setCard.shade;
+            setCardView.color = setCard.color;
+            setCardView.faceUp = setCard.isFaceUp;
+            setCardView.alpha = setCard.isUnplayable ? 0.3 : 1.0;
         }
-        
-        [mutableAttributedString insertAttributedString:[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@" for %d points", lastMove.points]] atIndex:[mutableAttributedString length]];
-        self.lastMoveLabel.attributedText = [mutableAttributedString copy];
     }
 }
 
-- (CardMatchingGame *)game
+- (IBAction)deal
 {
-    if (!_game) {
-        _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[SetCardDeck alloc]init] matchingNumberOfCard:THREE_CARD_GAME matchBonus:4 mismatchPenalty:2];
+    self.drawCardsButton.enabled = YES;
+    [self.drawCardsButton setTitle:@"Draw Cards" forState:UIControlStateNormal];
+    [super deal];
+}
+
+- (IBAction)drawCards:(id)sender
+{
+    NSMutableArray *cards = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 3; i++) {
+        [cards addObject:[self.deck drawRandomCard]];
     }
     
-    return _game;
+    if([cards count]==0){
+        [self.drawCardsButton setTitle:@"Empty Deck" forState:UIControlStateDisabled];
+        [self.drawCardsButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+        self.drawCardsButton.enabled = NO;
+    }
+    
+//    for (Card *card in cards) {
+//        [self addCardImageToView:<#(UIView *)#> forCard:card inRect:<#(CGRect)#>];
+//    }
+    
+}
+
+-(void)addCardImageToView:(UIView *)view forCard:(Card *)card inRect:(CGRect)rect;
+{
+    if ([card isKindOfClass:[SetCard class]]) {
+        SetCard *setCard =(SetCard *)card;
+        SetCardView *newSetCardView = [[SetCardView alloc]  initWithFrame:rect];
+        newSetCardView.opaque = NO;
+        newSetCardView.rank = setCard.rank;
+        newSetCardView.shape = setCard.shape;
+        newSetCardView.shade = setCard.shade;
+        newSetCardView.color = setCard.color;
+        
+        
+        [view addSubview:newSetCardView];
+    }
+}
+
+- (UIView*) createCardViewUsingCard:(Card*) card
+{
+    SetCardView *setCardView;
+    if ([card isKindOfClass:[SetCard class]]) {
+        SetCard *setCard = (SetCard *)card;
+        setCardView = [[SetCardView alloc]init];
+        setCardView.rank = setCard.rank;
+        setCardView.shape = setCard.shape;
+        setCardView.shade = setCard.shade;
+        setCardView.color = setCard.color;
+        setCardView.faceUp = YES;
+    }
+    return setCardView;
 }
 
 - (NSDictionary *)getDictionaryStyleForLastMove:(CGFloat)alpha withColor:(UIColor *)color
