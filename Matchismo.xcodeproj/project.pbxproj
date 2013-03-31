@@ -219,17 +219,16 @@
 		4BA7978316E0DF110027625F /* Matchismo */ = {
 			isa = PBXGroup;
 			children = (
-				4B0A576416E7FB30003F476D /* LastMove.h */,
-				4B0A576516E7FB30003F476D /* LastMove.m */,
 				4BA7979516E0DF110027625F /* MainStoryboard.storyboard */,
 				4BD08DF31704AE900057335C /* CardGameViewController.h */,
 				4BD08DF41704AE900057335C /* CardGameViewController.m */,
-				4BD08DFA1705283B0057335C /* PlayingCard Game */,
-				4BD08DFB1705288E0057335C /* Set Game */,
+				4BA7979816E0DF110027625F /* MatchismoViewController.h */,
+				4BA7979916E0DF110027625F /* MatchismoViewController.m */,
+				4BBADEEE16E579E90039012B /* SetViewController.h */,
+				4BBADEEF16E579E90039012B /* SetViewController.m */,
 				4BA797A516E0E04F0027625F /* Model */,
+				4BE769D61708F04100FECAD2 /* View */,
 				4BA7978416E0DF110027625F /* Supporting Files */,
-				4BD08E02170729090057335C /* FlipResultView.h */,
-				4BD08E031707290A0057335C /* FlipResultView.m */,
 			);
 			path = Matchismo;
 			sourceTree = "<group>";
@@ -266,6 +265,8 @@
 				4BA797A316E0E0460027625F /* Card.m */,
 				4BA797A616E0E0620027625F /* Deck.h */,
 				4BA797A716E0E0620027625F /* Deck.m */,
+				4B0A576416E7FB30003F476D /* LastMove.h */,
+				4B0A576516E7FB30003F476D /* LastMove.m */,
 				4BA797A916E0E0760027625F /* PlayingCard.h */,
 				4BA797AA16E0E0760027625F /* PlayingCard.m */,
 				4BA797AC16E0E0880027625F /* PlayingCardDeck.h */,
@@ -278,30 +279,21 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		4BD08DFA1705283B0057335C /* PlayingCard Game */ = {
+		4BE769D61708F04100FECAD2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4BD08E02170729090057335C /* FlipResultView.h */,
+				4BD08E031707290A0057335C /* FlipResultView.m */,
 				4B18A26C16FA1F8900C1D9DB /* PlayingCardCollectionViewCell.h */,
 				4B18A26D16FA1F8900C1D9DB /* PlayingCardCollectionViewCell.m */,
 				4B18A26F16FA1FC000C1D9DB /* PlayingCardView.h */,
 				4B18A27016FA1FC000C1D9DB /* PlayingCardView.m */,
-				4BA7979816E0DF110027625F /* MatchismoViewController.h */,
-				4BA7979916E0DF110027625F /* MatchismoViewController.m */,
-			);
-			name = "PlayingCard Game";
-			sourceTree = "<group>";
-		};
-		4BD08DFB1705288E0057335C /* Set Game */ = {
-			isa = PBXGroup;
-			children = (
-				4BBADEEE16E579E90039012B /* SetViewController.h */,
-				4BBADEEF16E579E90039012B /* SetViewController.m */,
 				4BD08DFC1705BA7E0057335C /* SetCardCollectionViewCell.h */,
 				4BD08DFD1705BA7E0057335C /* SetCardCollectionViewCell.m */,
 				4BD08DFF1705BB0C0057335C /* SetCardView.h */,
 				4BD08E001705BB0C0057335C /* SetCardView.m */,
 			);
-			name = "Set Game";
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

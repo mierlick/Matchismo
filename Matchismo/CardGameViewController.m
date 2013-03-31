@@ -19,7 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *lastMoveLabel;
 @property (weak, nonatomic) IBOutlet FlipResultView *flipResultView;
 
-
 @end
 
 @implementation CardGameViewController
@@ -33,10 +32,6 @@
     return _game;
 }
 
-- (Deck *)createDeck
-{
-    return nil; // abstract
-}
 
 - (void)setFlipCount:(int)flipCount
 {
@@ -44,15 +39,10 @@
     self.flipsLabel.text = [NSString stringWithFormat:@"Flips: %d", self.flipCount];
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-    return self.startingCardCount;
+    return [self.game cardsInPlay];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -64,12 +54,6 @@
     return cell;
 }
 
-- (void)updateCell:(UICollectionViewCell *)cell usingCard:(Card *)card
-{
-    // abstract
-}
-
-
 - (void)updateUI
 {
     for (UICollectionViewCell *cell in [self.cardCollectionView visibleCells]) {
@@ -77,30 +61,53 @@
         Card *card = [self.game cardAtIndex:indexPath.item];
         [self updateCell:cell usingCard:card];
     }
+    
+    // Score
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
-    [self setFlipResultFromLastMove:self.game.lastMove];
-}
-
-- (void)setFlipResultFromLastMove:(LastMove *)lastMove
-{
-    if (lastMove.cards.count < self.game.numberOfCardsToMatch) {
-        self.flipResultView.resultString = lastMove.lastMove;
+    
+    // Result
+    if (self.game.lastMove.cards.count < self.game.numberOfCardsToMatch) {
+        self.flipResultView.resultString = self.game.lastMove.lastMove;
     } else {
-        self.flipResultView.resultString = [NSString stringWithFormat:@"%@ for %d points", lastMove.lastMove, lastMove.points];
+        self.flipResultView.resultString = [NSString stringWithFormat:@"%@ for %d points", self.game.lastMove.lastMove, self.game.lastMove.points];
     }
     
     [self.flipResultView removeAllCardViews];
-    NSArray *cards = lastMove.cards;
+    NSArray *cards = self.game.lastMove.cards;
     for (Card *card in cards) {
         [self.flipResultView addCardView:[self createCardViewUsingCard:card]];
     }
     
+    // Remove Match
+    if( self.game.lastMove.points > 0 && self.removeCards) {
+        NSArray *cardsToRemove = cards;
+        NSMutableArray *cardIndexesToBeDeleted = [[NSMutableArray alloc]init];
+        NSMutableArray *removedCard = [[NSMutableArray alloc]init];
+        
+        for(Card *card in cardsToRemove){
+            // remove card from model
+            [cardIndexesToBeDeleted addObject:[NSIndexPath indexPathForItem:[self.game indexOfCard:card] inSection:0]];
+        }
+        
+        for(Card *card in cardsToRemove){
+            [self.game removeCard:card];
+            [removedCard addObject:card];
+        }
+        
+        [self.cardCollectionView performBatchUpdates:^{
+            [self.cardCollectionView deleteItemsAtIndexPaths:cardIndexesToBeDeleted];
+        } completion:^(BOOL finished) {
+        }];
+    }
+    
+    [self.cardCollectionView reloadData];
 }
 
 - (IBAction)deal
 {
     self.game = nil;
     self.flipCount = 0;
+    [self.cardCollectionView reloadData];
     [self updateUI];
 }
 
@@ -115,9 +122,39 @@
     }
 }
 
+- (void) addCards:(NSArray *)cards
+{
+    [self.game addCards:[cards copy]];
+    
+    NSMutableArray *indexPathsOfInsertedCards = [NSMutableArray array];
+    NSIndexSet *indexes = self.game.indexesOfInsertedCards;
+    
+    [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        [indexPathsOfInsertedCards addObject:[NSIndexPath indexPathForItem:idx inSection:0]];
+    }];
+    
+    [self.cardCollectionView performBatchUpdates:^{
+        [self.cardCollectionView insertItemsAtIndexPaths:indexPathsOfInsertedCards];
+    } completion:nil];
+    
+    [self.cardCollectionView scrollToItemAtIndexPath:[indexPathsOfInsertedCards lastObject] atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
+}
+
 - (UIView*) createCardViewUsingCard:(Card*) card
 {
     return nil; // abstract
+}
+
+
+- (Deck *)createDeck
+{
+    return nil; // abstract
+}
+
+
+- (void)updateCell:(UICollectionViewCell *)cell usingCard:(Card *)card
+{
+    // abstract
 }
 
 @end

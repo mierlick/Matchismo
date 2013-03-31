@@ -49,6 +49,11 @@
     return MISMATCH_PENALTY;
 }
 
+- (BOOL)removeCards
+{
+    return NO;
+}
+
 - (void)updateCell:(UICollectionViewCell *)cell usingCard:(Card *)card
 {
     if ([cell isKindOfClass:[PlayingCardCollectionViewCell class]]) {

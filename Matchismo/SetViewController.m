@@ -59,6 +59,11 @@
     return MISMATCH_PENALTY;
 }
 
+- (BOOL)removeCards
+{
+    return YES;
+}
+
 - (void)updateCell:(UICollectionViewCell *)cell usingCard:(Card *)card
 {
     if ([cell isKindOfClass:[SetCardCollectionViewCell class]]) {
@@ -79,6 +84,7 @@
 {
     self.drawCardsButton.enabled = YES;
     [self.drawCardsButton setTitle:@"Draw Cards" forState:UIControlStateNormal];
+    self.deck = nil;
     [super deal];
 }
 
@@ -86,19 +92,20 @@
 {
     NSMutableArray *cards = [[NSMutableArray alloc] init];
     for (int i = 0; i < 3; i++) {
-        [cards addObject:[self.deck drawRandomCard]];
+        Card *card = [self.deck drawRandomCard];
+        if (card) {
+            [cards addObject:card];
+        }
     }
     
-    if([cards count]==0){
+    if(self.deck.cardCount == 0){
         [self.drawCardsButton setTitle:@"Empty Deck" forState:UIControlStateDisabled];
         [self.drawCardsButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         self.drawCardsButton.enabled = NO;
     }
     
-//    for (Card *card in cards) {
-//        [self addCardImageToView:<#(UIView *)#> forCard:card inRect:<#(CGRect)#>];
-//    }
-    
+    [self addCards:cards];
+
 }
 
 -(void)addCardImageToView:(UIView *)view forCard:(Card *)card inRect:(CGRect)rect;

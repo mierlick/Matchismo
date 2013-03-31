@@ -18,7 +18,7 @@
 @property (readonly, nonatomic) NSUInteger mismatchPenalty; // abstract
 @property (readonly, nonatomic) int flipCount;
 @property (readonly, strong, nonatomic) CardMatchingGame *game;
-
+@property (nonatomic) BOOL removeCards;
 
 
 - (Deck *)createDeck; // abstract
@@ -26,5 +26,6 @@
 - (UIView*) createCardViewUsingCard:(Card*) card; // abstract
 - (void)updateUI;
 - (IBAction)deal;
+- (void) addCards:(NSArray *)cards;
 
 @end

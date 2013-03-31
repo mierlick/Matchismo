@@ -56,7 +56,6 @@
                          green:0.0 blue:0.0 alpha:0.2]setFill];
         roundedRect = [UIBezierPath bezierPathWithRect:self.bounds];
         [roundedRect fill];
-//        [[UIColor lightGrayColor] setFill];
     }
     UIRectFill(self.bounds);
     

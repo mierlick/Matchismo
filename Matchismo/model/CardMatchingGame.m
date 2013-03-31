@@ -16,6 +16,8 @@
 @property (strong, nonatomic) LastMove *lastMove;
 @property (nonatomic) int matchBonus;
 @property (nonatomic) int mismatchPenalty;
+@property (readwrite,nonatomic) NSIndexSet *indexesOfInsertedCards;
+
 
 @end
 
@@ -125,6 +127,43 @@
     if (!_lastMove)
         _lastMove = [[LastMove alloc] init];
     return _lastMove;
+}
+
+- (void)addCards:(NSArray *)cards
+{
+    NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
+    if (cards){
+        for (Card *card in cards) {
+            [self.cards addObject:card];
+            [indexes addIndex: [self.cards indexOfObject:card]];
+        }
+        self.indexesOfInsertedCards = indexes;
+    } else {
+        self.indexesOfInsertedCards = nil;
+    }
+}
+
+- (void)removeCard:(Card *)card
+{
+    [self.cards removeObject:card];
+}
+
+- (NSInteger)cardsInPlay
+{
+    return [self.cards count];
+}
+
+- (NSIndexSet  *)indexesOfInsertedCards
+{
+    if (!_indexesOfInsertedCards) {
+        _indexesOfInsertedCards = [[NSIndexSet alloc] init];
+    }
+    return _indexesOfInsertedCards ;
+}
+
+-(NSInteger) indexOfCard:(Card *)card
+{
+    return [self.cards indexOfObject:card];
 }
 
 @end
