@@ -12,6 +12,6 @@
 
 @property (strong, nonatomic)NSString *lastMove;
 @property (strong, nonatomic)NSArray *cards;
-@property (nonatomic)NSUInteger points;
+@property (nonatomic)NSInteger points;
 
 @end

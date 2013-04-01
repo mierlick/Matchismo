@@ -69,7 +69,7 @@
         }
         [self drawCorners];
     } else {
-        [[UIImage imageNamed:@"cardback"] drawInRect:self.bounds];
+        [[UIImage imageNamed:@"playingCardBack"] drawInRect:self.bounds];
     }
     
     [[UIColor blackColor] setStroke];

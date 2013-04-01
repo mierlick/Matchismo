@@ -79,7 +79,7 @@
     }
     
     // Remove Match
-    if( self.game.lastMove.points > 0 && self.removeCards) {
+    if( self.game.lastMove.points > 0 && self.removeCards ) {
         NSArray *cardsToRemove = cards;
         NSMutableArray *cardIndexesToBeDeleted = [[NSMutableArray alloc]init];
         NSMutableArray *removedCard = [[NSMutableArray alloc]init];
