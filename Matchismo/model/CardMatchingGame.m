@@ -18,9 +18,7 @@
 @property (nonatomic) int mismatchPenalty;
 @property (readwrite,nonatomic) NSIndexSet *indexesOfInsertedCards;
 
-
 @end
-
 
 
 @implementation CardMatchingGame

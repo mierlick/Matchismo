@@ -8,14 +8,6 @@
 
 #import "PlayingCard.h"
 
-@interface PlayingCard()
-
-
-@end
-
-
-
-
 @implementation PlayingCard
 
 @synthesize suit = _suit;

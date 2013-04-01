@@ -11,6 +11,12 @@
 @implementation SetCardView
 
 #define CORNER_RADIUS 0.0
+#define SYMBOL_SCALE_X 2
+#define SYMBOL_SCALE_Y 4.5
+#define SIZE_OF_OVAL_CURVE 10
+#define DIAMOND_ARM_SCALE 0.8
+#define Y_OFFSET_FOR_NUMBER_2 2.7
+#define Y_OFFSET_FOR_NUMBER_3 1.7
 
 - (void)setColor:(NSString *)color
 {
@@ -88,25 +94,6 @@
     
     return 1.0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-#define SYMBOL_SCALE_X 2
-#define SYMBOL_SCALE_Y 4.5
-#define SIZE_OF_OVAL_CURVE 10
-#define DIAMOND_ARM_SCALE 0.8
-#define Y_OFFSET_FOR_NUMBER_2 2.7
-#define Y_OFFSET_FOR_NUMBER_3 1.7
 
 - (void)drawCards
 {
@@ -201,24 +188,6 @@
         [path stroke];
         [path fill];
     }
-}
-
-
-
-- (void)setup
-{
-    // do initialization here
-}
-- (void)awakeFromNib
-{
-    [self setup];
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    [self setup];
-    return self;
 }
 
 @end
